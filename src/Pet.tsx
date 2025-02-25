@@ -1,9 +1,6 @@
 import React, {useState} from 'react'
 import normal_pet from "./assets/Cat Animation loop.gif"
 
-type mood = "happy"| "sad" | "sleepy" | "hungry";
-
-
 function Pet() {
   return (
     <>
