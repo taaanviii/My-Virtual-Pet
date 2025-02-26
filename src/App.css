@@ -5,15 +5,35 @@
   text-align: center;
 }
   */
-  #root {
-    height: 100%; /* Ensure html and body take up the full viewport height */
+  /*#root {
+   display: flexbox;
+   flex-direction: column;
+   height:100%;
     margin: 0 auto;
     text-align: center;
-
+background-color: black;
   }
   
   body {
     background: linear-gradient(to bottom,#f48fb1, #f06292, #ad1457);
-    height: 100%; /* Ensure body takes up the full height of the page */
-  }
+    height: 100%; 
+    */
+
+    .App {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      
+    }
+    
+    html,body {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+        }
+
+       
+
+  
   

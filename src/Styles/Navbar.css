@@ -1,0 +1,31 @@
+.navbar {
+    display: flex;
+    flex-direction: row;
+    background-color: beige;
+    height: 50px;
+    font-family: sans-serif;
+  }
+  
+  .navbar .left_side {
+    flex: 50%;
+    height: 100%;
+    margin-top:1%;
+    color: black;
+    text-align: left;
+    margin-left: 5%;
+  }
+  
+  .navbar .right_side {
+    flex: 50%;
+    height: 100%;
+    margin-top:1%;
+    text-align: right;
+    margin-right: 5%;
+    color: black;
+  }
+
+  :link {
+    text-decoration: none;
+    color: black;
+    
+  }

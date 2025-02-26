@@ -1,0 +1,48 @@
+.home {
+display: flex;
+flex-direction: column;
+padding: 0;
+margin: 0;
+width: 100%;
+height:100%;
+background: linear-gradient(to bottom,#f48fb1, #f06292, #ad1457);
+text-align: center;
+justify-content: center;
+align-items: center;
+}
+
+.landing_layout {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%; /* Ensure this also spans the full height */
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+
+.page_name {
+    margin-top: 5%; 
+    padding: 10px;
+    color:white;
+    font-family:sans-serif ;
+}
+
+.page_photo  {
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.start_button {
+    background-color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+    width: 10%;
+    font-size: x-large;
+    margin-left: 0;
+}

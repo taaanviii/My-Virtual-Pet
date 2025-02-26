@@ -1,0 +1,36 @@
+.pet_page {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-items: center;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom,#f48fb1, #f06292);
+}
+
+.render_pet_image {
+    text-align: center;
+    justify-items: center;
+    object-fit: contain;
+    margin-top: 5%;
+}
+
+img {
+    min-width: 400px;
+    max-width: 400px;
+    height: 100%;;
+}
+
+.mood_button {
+    background-color: white;
+    margin-top:5%;
+    margin-left: 1%;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+    font-size: medium;
+    cursor:pointer;
+}
+
