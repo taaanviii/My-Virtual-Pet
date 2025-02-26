@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
+import "./Pet.css"
 import normal_pet from "./assets/Cat Animation loop.gif"
-import sleepy from "./assets/Snoozing Cat.gif"
+import sleepy from "./assets/Snoozing-Cat-unscreen.gif"
 import hungry from "./assets/hungry cats Sticker by Platonic Games - Find & Share on GIPHY.gif"
 import happy from "./assets/Happy Good Vibes Sticker by Mino Games - Find & Share on GIPHY.gif"
 import sad from "./assets/sad.gif"

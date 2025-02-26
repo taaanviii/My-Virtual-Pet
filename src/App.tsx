@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Home from './Home';
-import Pet from './pet';
+import Pet from './Pet';
 import './App.css';
 
 function App() {
