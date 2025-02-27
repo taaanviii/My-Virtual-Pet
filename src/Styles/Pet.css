@@ -12,7 +12,7 @@
     text-align: center;
     justify-items: center;
     object-fit: contain;
-    margin-top: 6%;
+    margin-top: 4%;
 }
 
 img {
@@ -23,7 +23,7 @@ img {
 
 .mood_button {
     background-color: white;
-    margin-top:5%;
+    margin-top:4%;
     margin-left: 1%;
     padding: 10px 20px;
     border: none;
@@ -51,4 +51,6 @@ img {
     padding: 8px;
 }
 
-
+.name_header {
+    margin-top: 5%;
+}

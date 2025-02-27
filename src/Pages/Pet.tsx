@@ -8,6 +8,26 @@ import sad from "../assets/sad.gif"
 
 function Pet() {
   const [petImage, setPetImage] = useState(normal_pet)
+  const [petName, setPetName] = useState<string>('')
+  const [submittedName, setSubmittedName] = useState<string>('')
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPetName(event.target.value)
+  };
+
+  const handleFormSubmission = (event: React.FormEvent) => {
+    event.preventDefault();
+    setSubmittedName(petName);
+    setPetName('');
+  }
+
+  const handleKeyPress = (event: React.KeyboardEvent) => {
+    if(event.key === 'Enter') {
+      handleFormSubmission(event as unknown as React.FormEvent);
+      
+    }
+  }
+
 
   const happyClick = () => {
     setPetImage(happy)
@@ -29,20 +49,26 @@ function Pet() {
    
     <>
     <div className='pet_page'>
-      <div className='pet_name'>
+      {submittedName ? (
+       <div> {submittedName && <h2 className='name_header'>{submittedName}</h2>} </div>
+      ) : (
+        <div className='pet_name'>
         <form>
-          <label className='form_name'>PET NAME: </label>
-          <input className='form_input'></input>
+          <label className='form_name' htmlFor='pet-name'>PET NAME: </label>
+          <input className='form_input' type='text' id='pet-name' value={petName} onChange={handleInputChange} onKeyPress={handleKeyPress} />
         </form>
       </div>
+      )
+    }
+      
     <div className='render_pet_image'>
         <img src={petImage} alt="pet in normal position"></img>
         </div>
         <div>
-            <button onClick={happyClick} className='mood_button'>Happy</button>
-            <button onClick={sadClick} className='mood_button'>Sad</button>
-            <button onClick={hungryClick} className='mood_button'>Feed</button>
-            <button onClick={sleepyClick} className='mood_button'>Sleep</button>
+            <button onClick={happyClick} className='mood_button'>HAPPY</button>
+            <button onClick={sadClick} className='mood_button'>SAD</button>
+            <button onClick={hungryClick} className='mood_button'>FEED</button>
+            <button onClick={sleepyClick} className='mood_button'>SLEEP</button>
             </div>
     </div>
     </>

@@ -6,8 +6,8 @@ function Navbar() {
   return (
     <>
     <div className='navbar'>
-    <div className='left_side'>My Virtual Pet</div>
-    <div className='right_side'><Link to="/">Home</Link></div>
+    <div className='left_side'>MY VIRTUAL PET</div>
+    <div className='right_side'><Link to="/">HOME</Link></div>
     </div>
     </>
   )
