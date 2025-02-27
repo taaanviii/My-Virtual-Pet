@@ -50,7 +50,7 @@ function Pet() {
     <>
     <div className='pet_page'>
       {submittedName ? (
-       <div> {submittedName && <h2 className='name_header'>{submittedName}</h2>} </div>
+       <div className='name_header'> {submittedName && <h2>{submittedName}</h2>} </div>
       ) : (
         <div className='pet_name'>
         <form>
