@@ -29,6 +29,12 @@ function Pet() {
    
     <>
     <div className='pet_page'>
+      <div className='pet_name'>
+        <form>
+          <label className='form_name'>PET NAME: </label>
+          <input className='form_input'></input>
+        </form>
+      </div>
     <div className='render_pet_image'>
         <img src={petImage} alt="pet in normal position"></img>
         </div>

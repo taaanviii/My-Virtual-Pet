@@ -12,7 +12,7 @@
     text-align: center;
     justify-items: center;
     object-fit: contain;
-    margin-top: 5%;
+    margin-top: 6%;
 }
 
 img {
@@ -33,4 +33,22 @@ img {
     font-size: medium;
     cursor:pointer;
 }
+
+.pet_name {
+    margin-top: 5%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.form_name {
+    font-family: sans-serif;
+    font-size: large;
+}
+
+.form_input {
+    border-radius: 5px;
+    padding: 8px;
+}
+
 
