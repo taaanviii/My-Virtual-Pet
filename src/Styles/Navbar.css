@@ -1,7 +1,9 @@
 .navbar {
     display: flex;
     flex-direction: row;
-    background-color: beige;
+   /* background-color: beige; */
+   background-image: url("src/assets/navbar-image.jpg");
+   background-size:30%;
     height: 50px;
     font-family: sans-serif;
   }

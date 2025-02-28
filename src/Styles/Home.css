@@ -30,7 +30,7 @@ align-items: center;
 
 .page_photo  {
     margin-bottom: 20px;
-    width: 100%;
+    width:20%;
     text-align: center;
 }
 
@@ -41,9 +41,10 @@ align-items: center;
     border: none;
     border-radius: 6px;
     font-size: 16px;
-    cursor: pointer;
+    cursor:pointer;
     text-align: center;
     width: 10%;
     font-size: x-large;
     margin-left: 0;
 }
+

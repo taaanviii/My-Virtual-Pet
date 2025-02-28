@@ -12,13 +12,12 @@
     text-align: center;
     justify-items: center;
     object-fit: contain;
-    margin-top: 9%;
+    margin-top: 15%;
 }
 
 img {
-    min-width: 400px;
-    max-width: 400px;
-    height: 100%;;
+    width:200px;
+    height:200px;
 }
 
 .mood_button {
