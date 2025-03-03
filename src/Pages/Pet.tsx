@@ -17,6 +17,22 @@ function Pet() {
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null); // Fix: Use ReturnType instead of NodeJS.Timeout
   const divRef = useRef<HTMLDivElement | null>(null); // Reference to the div being hovered
 
+  const [heartsArray, setHeartsArray] = useState<{ id: number; left: string; top: string }[]>([]);
+
+useEffect(() => {
+  if (heartsVisible) {
+    const newHearts = Array.from({ length: 5 }, (_, i) => ({
+      id: i,
+      left: `${Math.random() * 90}%`, // Random left position
+      top: `${Math.random() * 40 + 30}%`, // Random start height (between 30% - 70%)
+    }));
+    setHeartsArray(newHearts);
+
+    // Remove hearts after animation completes (3s)
+    setTimeout(() => setHeartsArray([]), 3000);
+  }
+}, [heartsVisible]);
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPetName(event.target.value)
   };
@@ -70,7 +86,7 @@ function Pet() {
     if (hovering) {
       timeoutRef.current = setTimeout(() => {
         setHeartsVisible(true); // Show hearts after 3 seconds
-      }, 1000); // 1 seconds
+      }, 1500); // 1 seconds
     }
 
     // Cleanup timeout if hovering stops before 3 seconds
@@ -112,12 +128,17 @@ function Pet() {
 
             {heartsVisible && (
         <div className="hearts-container">
-          <img src={hearts} alt="Heart" className="hearts" />
-          <img src={hearts} alt="Heart" className="hearts" />
-          <img src={hearts} alt="Heart" className="hearts" />
+          {heartsArray.map((heart) => (
+            <img
+              key={heart.id}
+              src={hearts}
+              alt="Heart"
+              className="hearts"
+              style={{ left: heart.left, top: heart.top }}
+            />
+          ))}
         </div>
       )}
-
     </div>
     </div>
   )
