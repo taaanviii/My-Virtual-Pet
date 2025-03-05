@@ -1,83 +1,117 @@
-import React, {useState, useEffect, useRef} from 'react'
-import "../Styles/Pet.css"
-import normal_pet from "../assets/Normal-cat.gif"
-import sleepy from "../assets/Snoozing-Cat-unscreen.gif"
-import hungry from "../assets/hungry cats Sticker by Platonic Games - Find & Share on GIPHY.gif"
-import happy from "../assets/Happy Good Vibes Sticker by Mino Games - Find & Share on GIPHY.gif"
-import sad from "../assets/sad.gif"
-import hearts from "../assets/hearts.png"
+import React, { useState, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
+import "../Styles/Pet.css";
+import normal_cat from "../assets/Normal_cat.gif";
+import sleepy_cat from "../assets/sleepy_cat.gif";
+import hungry_cat from "../assets/hungry_cat.gif";
+import happy_cat from "../assets/happy_cat.gif";
+import sad_cat from "../assets/sad_cat.gif";
+import normal_dog from "../assets/dog.png";
+import sleepy_dog from "../assets/sleepy_dog.gif";
+import hungry_dog from "../assets/hungry_dog.gif";
+import happy_dog from "../assets/happy_dog.gif";
+import sad_dog from "../assets/sad_dog.gif";
+import hearts from "../assets/hearts.png";
 
 function Pet() {
-  const [petImage, setPetImage] = useState(normal_pet);
-  const [petName, setPetName] = useState<string>('');
-  const [submittedName, setSubmittedName] = useState<string>('');
-
-  const [heartsVisible, setHeartsVisible] = useState(false); // To control heart visibility
-  const [hovering, setHovering] = useState(false); // To track if the mouse is hovering
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null); // Fix: Use ReturnType instead of NodeJS.Timeout
-  const divRef = useRef<HTMLDivElement | null>(null); // Reference to the div being hovered
+  const { petType } = useParams<{ petType: string }>(); // Get pet type from URL
+  const [petImage, setPetImage] = useState("");
+  const [petName, setPetName] = useState<string>("");
+  const [submittedName, setSubmittedName] = useState<string>("");
+  const [heartsVisible, setHeartsVisible] = useState(false);
+  const [hovering, setHovering] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const divRef = useRef<HTMLDivElement | null>(null);
 
   const [heartsArray, setHeartsArray] = useState<{ id: number; left: string; top: string }[]>([]);
 
+  const petImages = {
+    cat: {
+      normal: normal_cat,
+      sleepy: sleepy_cat,
+      hungry: hungry_cat,
+      happy: happy_cat,
+      sad: sad_cat,
+    },
+    dog: {
+      normal: normal_dog,
+      sleepy: sleepy_dog,
+      hungry: hungry_dog,
+      happy: happy_dog,
+      sad: sad_dog,
+    },
+  };
+
+  useEffect(() => {
+    if (petType && (petType === "dog" || petType === "cat")) {
+      setPetImage(petImages[petType].normal);
+    }
+  }, [petType]);
+  
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPetName(event.target.value)
+    setPetName(event.target.value);
   };
 
   const handleFormSubmission = (event: React.FormEvent) => {
     event.preventDefault();
     setSubmittedName(petName);
-    setPetName('');
-    }
+    setPetName("");
+  };
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
-    if(event.key === 'Enter') {
+    if (event.key === "Enter") {
       handleFormSubmission(event as unknown as React.FormEvent);
     }
-  }
-  
-  const happyClick = () => {setPetImage(happy)}
+  };
 
-  const sadClick = () => {setPetImage(sad)}
+  const happyClick = () => {
+    setPetImage(petImages[petType!].happy);
+  };
 
-  const hungryClick = () => {setPetImage(hungry)}
+  const sadClick = () => {
+    setPetImage(petImages[petType!].sad);
+  };
 
-  const sleepyClick = () => {setPetImage(sleepy)}
+  const hungryClick = () => {
+    setPetImage(petImages[petType!].hungry);
+  };
 
-  // Handler to start the timer when the mouse enters the div
-  const handleMouseEnter = () => { setHovering(true); };
+  const sleepyClick = () => {
+    setPetImage(petImages[petType!].sleepy);
+  };
+
+  // Handle hover effects
+  const handleMouseEnter = () => {
+    setHovering(true);
+  };
 
   useEffect(() => {
     if (heartsVisible) {
       const newHearts = Array.from({ length: 5 }, (_, i) => ({
         id: i,
-        left: `${Math.random() * 90}%`, // Random left position
-        top: `${Math.random() * 40 + 30}%`, // Random start height (between 30% - 70%)
+        left: `${Math.random() * 90}%`,
+        top: `${Math.random() * 40 + 30}%`,
       }));
       setHeartsArray(newHearts);
-  
-      // Remove hearts after animation completes (3s)
       setTimeout(() => setHeartsArray([]), 1500);
     }
   }, [heartsVisible]);
 
-  // Handler to stop the timer when the mouse leaves the div
   const handleMouseLeave = () => {
     setHovering(false);
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
     setHeartsVisible(false);
-  }; 
+  };
 
-  // Check if the mouse is hovering for more than 1.5 seconds
   useEffect(() => {
     if (hovering) {
       timeoutRef.current = setTimeout(() => {
-        setHeartsVisible(true); // Show hearts after 1.5 seconds
-      }, 1500); // 1.5 seconds
-    } 
-
-    // Cleanup timeout if hovering stops before 1.5 seconds
+        setHeartsVisible(true);
+      }, 1500);
+    }
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
@@ -86,51 +120,51 @@ function Pet() {
   }, [hovering]);
 
   return (
-    <div   
-    ref={divRef}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    className="pet_page">
-    <div className='pet_page'>
-      {submittedName ? (
-       <div className='name_header'> {submittedName && <h2>{submittedName}</h2>} </div>
-      ) : (
-        <div className='pet_name'>
-        <form>
-          <label className='form_name' htmlFor='pet-name'>PET NAME: </label>
-          <input className='form_input' type='text' id='pet-name' value={petName} onChange={handleInputChange} onKeyPress={handleKeyPress} />
-        </form>
-      </div>
-      )
-    }
+    <div ref={divRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="pet_page">
+      <div className="pet_page">
+        {submittedName ? (
+          <div className="name_header">
+            {submittedName && <h2>{submittedName}</h2>}
+          </div>
+        ) : (
+          <div className="pet_name">
+            <form>
+              <label className="form_name" htmlFor="pet-name">
+                PET NAME:
+              </label>
+              <input className="form_input" type="text" id="pet-name" value={petName} onChange={handleInputChange} onKeyPress={handleKeyPress} />
+            </form>
+          </div>
+        )}
 
-      <div 
-      className='render_pet_image'>
-        <img src={petImage} alt="pet in normal position"></img>
+        <div className="render_pet_image">
+          <img src={petImage} alt={`pet in normal position`} />
         </div>
         <div>
-            <button onClick={happyClick} className='mood_button'>HAPPY</button>
-            <button onClick={sadClick} className='mood_button'>SAD</button>
-            <button onClick={hungryClick} className='mood_button'>FEED</button>
-            <button onClick={sleepyClick} className='mood_button'>SLEEP</button>
-            </div>
-
-            {heartsVisible && (
-        <div className="hearts-container">
-          {heartsArray.map((heart) => (
-            <img
-              key={heart.id}
-              src={hearts}
-              alt="Heart"
-              className="hearts"
-              style={{ left: heart.left, top: heart.top }}
-            />
-          ))}
+          <button onClick={happyClick} className="mood_button">
+            HAPPY
+          </button>
+          <button onClick={sadClick} className="mood_button">
+            SAD
+          </button>
+          <button onClick={hungryClick} className="mood_button">
+            FEED
+          </button>
+          <button onClick={sleepyClick} className="mood_button">
+            SLEEP
+          </button>
         </div>
-      )}
+
+        {heartsVisible && (
+          <div className="hearts-container">
+            {heartsArray.map((heart) => (
+              <img key={heart.id} src={hearts} alt="Heart" className="hearts" style={{ left: heart.left, top: heart.top }} />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
-    </div>
-  )
+  );
 }
 
-export default Pet
+export default Pet;

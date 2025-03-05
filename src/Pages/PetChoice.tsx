@@ -12,10 +12,10 @@ function PetChoice() {
         </div>
         <div className='pet_choice'>
             <div className='right_pet'>
-                <Link to="/pet"><img src={dog} alt="dog" /></Link>
+                <Link to="/pet/dog"><img src={dog} alt="dog" /></Link>
             </div>
             <div className='left_pet'>
-                <Link to="/pet"><img src={cat} alt='cat'/></Link>
+                <Link to="/pet/cat"><img src={cat} alt='cat'/></Link>
             </div>
         </div>
     </div>
