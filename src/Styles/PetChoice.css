@@ -1,0 +1,30 @@
+.pet_choice_page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width:100%;
+    height:100%;
+}
+
+.heading {
+    width:100%;
+    height:20%;
+    margin-top:5%;
+    font-family: sans-serif;
+    font-size: x-large;
+
+}
+
+.pet_choice {
+    display: flex;
+    width:100%;
+    height:50%;
+    align-items: center;
+    justify-content: center;
+    gap: 10%;
+}
+
+.pet_choice :hover {
+    transition: transform 0.2s;
+    transform: scale(1.1);
+}

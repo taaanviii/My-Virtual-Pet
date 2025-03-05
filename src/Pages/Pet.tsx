@@ -19,20 +19,6 @@ function Pet() {
 
   const [heartsArray, setHeartsArray] = useState<{ id: number; left: string; top: string }[]>([]);
 
-useEffect(() => {
-  if (heartsVisible) {
-    const newHearts = Array.from({ length: 5 }, (_, i) => ({
-      id: i,
-      left: `${Math.random() * 90}%`, // Random left position
-      top: `${Math.random() * 40 + 30}%`, // Random start height (between 30% - 70%)
-    }));
-    setHeartsArray(newHearts);
-
-    // Remove hearts after animation completes (3s)
-    setTimeout(() => setHeartsArray([]), 3000);
-  }
-}, [heartsVisible]);
-
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPetName(event.target.value)
   };
@@ -41,36 +27,38 @@ useEffect(() => {
     event.preventDefault();
     setSubmittedName(petName);
     setPetName('');
-  }
+    }
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
     if(event.key === 'Enter') {
       handleFormSubmission(event as unknown as React.FormEvent);
-      
     }
   }
+  
+  const happyClick = () => {setPetImage(happy)}
 
+  const sadClick = () => {setPetImage(sad)}
 
-  const happyClick = () => {
-    setPetImage(happy)
-  }
+  const hungryClick = () => {setPetImage(hungry)}
 
-  const sadClick = () => {
-    setPetImage(sad)
-  }
-
-  const hungryClick = () => {
-    setPetImage(hungry)
-  }
-
-  const sleepyClick = () => {
-    setPetImage(sleepy)
-  }
+  const sleepyClick = () => {setPetImage(sleepy)}
 
   // Handler to start the timer when the mouse enters the div
-  const handleMouseEnter = () => {
-    setHovering(true);
-  };
+  const handleMouseEnter = () => { setHovering(true); };
+
+  useEffect(() => {
+    if (heartsVisible) {
+      const newHearts = Array.from({ length: 5 }, (_, i) => ({
+        id: i,
+        left: `${Math.random() * 90}%`, // Random left position
+        top: `${Math.random() * 40 + 30}%`, // Random start height (between 30% - 70%)
+      }));
+      setHeartsArray(newHearts);
+  
+      // Remove hearts after animation completes (3s)
+      setTimeout(() => setHeartsArray([]), 1500);
+    }
+  }, [heartsVisible]);
 
   // Handler to stop the timer when the mouse leaves the div
   const handleMouseLeave = () => {
@@ -79,17 +67,17 @@ useEffect(() => {
       clearTimeout(timeoutRef.current);
     }
     setHeartsVisible(false);
-  };
+  }; 
 
-  // Check if the mouse is hovering for more than 3 seconds
+  // Check if the mouse is hovering for more than 1.5 seconds
   useEffect(() => {
     if (hovering) {
       timeoutRef.current = setTimeout(() => {
-        setHeartsVisible(true); // Show hearts after 3 seconds
-      }, 1500); // 1 seconds
-    }
+        setHeartsVisible(true); // Show hearts after 1.5 seconds
+      }, 1500); // 1.5 seconds
+    } 
 
-    // Cleanup timeout if hovering stops before 3 seconds
+    // Cleanup timeout if hovering stops before 1.5 seconds
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
@@ -98,10 +86,10 @@ useEffect(() => {
   }, [hovering]);
 
   return (
-   
-    <div   ref={divRef}
-    onMouseEnter={handleMouseEnter}
-    onMouseLeave={handleMouseLeave}
+    <div   
+    ref={divRef}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     className="pet_page">
     <div className='pet_page'>
       {submittedName ? (
@@ -116,7 +104,8 @@ useEffect(() => {
       )
     }
 
-      <div className='render_pet_image'>
+      <div 
+      className='render_pet_image'>
         <img src={petImage} alt="pet in normal position"></img>
         </div>
         <div>
