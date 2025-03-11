@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { IconButton } from "@mui/material";
+import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
 import "../Styles/Pet.css";
 import normal_cat from "../assets/Normal_cat.gif";
 import sleepy_cat from "../assets/sleepy_cat.gif";
@@ -14,7 +16,6 @@ import sad_dog from "../assets/sad_dog.gif";
 import hearts from "../assets/hearts.png";
 
 function Pet() {
-  const { petType } = useParams<{ petType: string }>(); // Get pet type from URL
   const [petImage, setPetImage] = useState("");
   const [petName, setPetName] = useState<string>("");
   const [submittedName, setSubmittedName] = useState<string>("");
@@ -22,6 +23,7 @@ function Pet() {
   const [hovering, setHovering] = useState(false);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const divRef = useRef<HTMLDivElement | null>(null);
+  const navigate = useNavigate();
 
   const [heartsArray, setHeartsArray] = useState<{ id: number; left: string; top: string }[]>([]);
 
@@ -42,12 +44,17 @@ function Pet() {
     },
   };
 
+  type PetType = "dog" | "cat";
+
+  const petType: PetType = "dog"; // Example value
+
   useEffect(() => {
-    if (petType && (petType === "dog" || petType === "cat")) {
-      setPetImage(petImages[petType].normal);
-    }
+    setPetImage(petImages[petType].normal);
   }, [petType]);
-  
+
+  const handleBack = () => {
+    navigate(-1);
+  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPetName(event.target.value);
@@ -121,6 +128,12 @@ function Pet() {
 
   return (
     <div ref={divRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="pet_page">
+      
+      {/* Left Arrow Back Button */}
+      <IconButton onClick={handleBack} className="back_button" color="primary">
+        <ArrowCircleLeftOutlinedIcon fontSize="large" />
+      </IconButton>
+
       <div className="pet_page">
         {submittedName ? (
           <div className="name_header">
@@ -140,6 +153,7 @@ function Pet() {
         <div className="render_pet_image">
           <img src={petImage} alt={`pet in normal position`} />
         </div>
+
         <div>
           <button onClick={happyClick} className="mood_button">
             HAPPY

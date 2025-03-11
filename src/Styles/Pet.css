@@ -8,6 +8,13 @@
     background: linear-gradient(to bottom,#f48fb1, #f06292);
 }
 
+.back_button {
+    position: fixed !important;  /* Ensures it stays fixed at the top-left */
+    top: 100px !important;  /* Moves it to the very top */
+    left: 20px !important; /* Moves it to the extreme left */
+    color: black !important
+}
+
 .render_pet_image {
     text-align: center;
     justify-items: center;
