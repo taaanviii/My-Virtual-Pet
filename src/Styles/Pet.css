@@ -5,7 +5,8 @@
     justify-items: center;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to bottom,#f48fb1, #f06292);
+    /*background: linear-gradient(to bottom,#f48fb1, #f06292); */
+    background-color: #ff881a;
 }
 
 .back_button {

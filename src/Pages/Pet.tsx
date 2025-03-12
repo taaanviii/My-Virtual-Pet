@@ -16,166 +16,63 @@ import sad_dog from "../assets/sad_dog.gif";
 import hearts from "../assets/hearts.png";
 
 function Pet() {
+  const { petType } = useParams<{ petType: "dog" | "cat" }>(); // Get pet type from URL
   const [petImage, setPetImage] = useState("");
   const [petName, setPetName] = useState<string>("");
   const [submittedName, setSubmittedName] = useState<string>("");
-  const [heartsVisible, setHeartsVisible] = useState(false);
-  const [hovering, setHovering] = useState(false);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const divRef = useRef<HTMLDivElement | null>(null);
   const navigate = useNavigate();
 
-  const [heartsArray, setHeartsArray] = useState<{ id: number; left: string; top: string }[]>([]);
-
   const petImages = {
-    cat: {
-      normal: normal_cat,
-      sleepy: sleepy_cat,
-      hungry: hungry_cat,
-      happy: happy_cat,
-      sad: sad_cat,
-    },
-    dog: {
-      normal: normal_dog,
-      sleepy: sleepy_dog,
-      hungry: hungry_dog,
-      happy: happy_dog,
-      sad: sad_dog,
-    },
+    cat: { normal: normal_cat, sleepy: sleepy_cat, hungry: hungry_cat, happy: happy_cat, sad: sad_cat },
+    dog: { normal: normal_dog, sleepy: sleepy_dog, hungry: hungry_dog, happy: happy_dog, sad: sad_dog },
   };
 
-  type PetType = "dog" | "cat";
-
-  const petType: PetType = "dog"; // Example value
-
   useEffect(() => {
-    setPetImage(petImages[petType].normal);
+    if (petType && petImages[petType]) {
+      setPetImage(petImages[petType].normal); // Set pet image based on selected pet type
+    }
   }, [petType]);
 
   const handleBack = () => {
     navigate(-1);
   };
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPetName(event.target.value);
-  };
-
-  const handleFormSubmission = (event: React.FormEvent) => {
-    event.preventDefault();
-    setSubmittedName(petName);
-    setPetName("");
-  };
-
-  const handleKeyPress = (event: React.KeyboardEvent) => {
-    if (event.key === "Enter") {
-      handleFormSubmission(event as unknown as React.FormEvent);
+  const handleMoodChange = (mood: "happy" | "sad" | "hungry" | "sleepy") => {
+    if (petType && petImages[petType]) {
+      setPetImage(petImages[petType][mood]);
     }
   };
-
-  const happyClick = () => {
-    setPetImage(petImages[petType!].happy);
-  };
-
-  const sadClick = () => {
-    setPetImage(petImages[petType!].sad);
-  };
-
-  const hungryClick = () => {
-    setPetImage(petImages[petType!].hungry);
-  };
-
-  const sleepyClick = () => {
-    setPetImage(petImages[petType!].sleepy);
-  };
-
-  // Handle hover effects
-  const handleMouseEnter = () => {
-    setHovering(true);
-  };
-
-  useEffect(() => {
-    if (heartsVisible) {
-      const newHearts = Array.from({ length: 5 }, (_, i) => ({
-        id: i,
-        left: `${Math.random() * 90}%`,
-        top: `${Math.random() * 40 + 30}%`,
-      }));
-      setHeartsArray(newHearts);
-      setTimeout(() => setHeartsArray([]), 1500);
-    }
-  }, [heartsVisible]);
-
-  const handleMouseLeave = () => {
-    setHovering(false);
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-    setHeartsVisible(false);
-  };
-
-  useEffect(() => {
-    if (hovering) {
-      timeoutRef.current = setTimeout(() => {
-        setHeartsVisible(true);
-      }, 1500);
-    }
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
-      }
-    };
-  }, [hovering]);
 
   return (
-    <div ref={divRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="pet_page">
-      
-      {/* Left Arrow Back Button */}
-      <IconButton onClick={handleBack} className="back_button" color="primary">
+    <div className="pet_page">
+      <IconButton onClick={handleBack} className="back_button" sx={{ color: "black" }}>
         <ArrowCircleLeftOutlinedIcon fontSize="large" />
       </IconButton>
 
       <div className="pet_page">
         {submittedName ? (
           <div className="name_header">
-            {submittedName && <h2>{submittedName}</h2>}
+            <h2>{submittedName}</h2>
           </div>
         ) : (
           <div className="pet_name">
-            <form>
-              <label className="form_name" htmlFor="pet-name">
-                PET NAME:
-              </label>
-              <input className="form_input" type="text" id="pet-name" value={petName} onChange={handleInputChange} onKeyPress={handleKeyPress} />
+            <form onSubmit={(e) => { e.preventDefault(); setSubmittedName(petName); setPetName(""); }}>
+              <label className="form_name">PET NAME:</label>
+              <input className="form_input" type="text" value={petName} onChange={(e) => setPetName(e.target.value)} />
             </form>
           </div>
         )}
 
         <div className="render_pet_image">
-          <img src={petImage} alt={`pet in normal position`} />
+          <img src={petImage} alt={`A ${petType}`} />
         </div>
 
         <div>
-          <button onClick={happyClick} className="mood_button">
-            HAPPY
-          </button>
-          <button onClick={sadClick} className="mood_button">
-            SAD
-          </button>
-          <button onClick={hungryClick} className="mood_button">
-            FEED
-          </button>
-          <button onClick={sleepyClick} className="mood_button">
-            SLEEP
-          </button>
+          <button onClick={() => handleMoodChange("happy")} className="mood_button">HAPPY</button>
+          <button onClick={() => handleMoodChange("sad")} className="mood_button">SAD</button>
+          <button onClick={() => handleMoodChange("hungry")} className="mood_button">FEED</button>
+          <button onClick={() => handleMoodChange("sleepy")} className="mood_button">SLEEP</button>
         </div>
-
-        {heartsVisible && (
-          <div className="hearts-container">
-            {heartsArray.map((heart) => (
-              <img key={heart.id} src={hearts} alt="Heart" className="hearts" style={{ left: heart.left, top: heart.top }} />
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );
