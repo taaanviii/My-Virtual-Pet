@@ -1,94 +1,192 @@
+/* Styles/Pet.css */
+
 .pet_page {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    justify-items: center;
-    width: 100%;
-    height: 100%;
-    /*background: linear-gradient(to bottom,#f48fb1, #f06292); */
-    background-color: #ff881a;
+  /* REMOVED: background-image: url('src\assets\Orange.jfif'); */
+  
+  /* Set parent container properties for full screen background and positioning */
+  position: relative; 
+  background-size: cover; /* Retain image scaling */
+  background-position: center;
+  background-attachment: fixed;
+  
+  /* Flexbox setup for the whole page */
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  justify-content: center; 
+  width: 100%;
+  height: 100vh; 
+  overflow: hidden; 
 }
 
-.back_button {
-    position: fixed !important;  /* Ensures it stays fixed at the top-left */
-    top: 100px !important;  /* Moves it to the very top */
-    left: 20px !important; /* Moves it to the extreme left */
-    color: black !important
-}
-
-.render_pet_image {
-    text-align: center;
-    justify-items: center;
-    object-fit: contain;
-    margin-top: 15%;
-}
-
-img {
-    width:200px;
-    height:200px;
-}
-
-.mood_button {
-    background-color: white;
-    margin-top:4%;
-    margin-left: 1%;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    text-align: center;
-    font-size: medium;
-    cursor:pointer;
-}
-
-.pet_name, .name_header {
-    margin-top: 5%;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    width:100%;
-}
-
-.form_name {
-    font-family: sans-serif;
-    font-size: large;
-}
-
-.form_input {
-    border-radius: 5px;
-    padding: 8px;
-}
-
-.name_header {
-    margin-top: 4%;
-    padding:0;
-    height:5%;  
-}
-
-.hearts-container {
-  top: 50%;
+/* Overlay for darkening/tinting the background image */
+.pet_page::before {
+  content: "";
+  position: absolute;
+  top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  pointer-events: none; /* Prevent interaction with hearts */
+  background-color: rgba(255, 136, 26, 0.7); /* 70% opacity orange */
+  z-index: -1; 
 }
 
-.hearts {
+/* The inner .pet_page container holding the main UI elements */
+.pet_page > .pet_page { 
+    /* Restore Flex properties for the inner content block */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center content (name, image, buttons) inside this block */
+    justify-content: center;
+    width: 100%; /* Important for centering child elements */
+    
+    /* Adjusted vertical shift to compensate for center alignment and fixed back button */
+    transform: translateY(-5vh); 
+}
+
+
+/* --- BACK BUTTON AESTHETICS --- */
+.back_button {
+  position: fixed !important;
+  top: 70px !important; /* Positioned below a conceptual navbar */
+  left: 35px !important; 
+  z-index: 100;
+  
+  color: #ff881a !important; 
+  background-color: #ffffff; 
+  border: 2px solid #ffab66; 
+  border-radius: 50%; 
+  padding: 8px;
+  
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease-in-out;
+}
+
+.back_button:hover {
+    background-color: #ffab66;
+    color: white !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+}
+/* ------------------------------- */
+
+
+/* --- NAME AREA AESTHETICS --- */
+.pet_name, .name_header {
+  margin-bottom: 30px; 
+  /* Alignment changes restored to center, required for overall layout */
+  text-align: center;
+  display: flex; 
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* Allow form centering */
+}
+
+.name_header h2 {
+    background-color: #ffe0b2; 
+    color: #444;
+    font-family: 'Georgia', serif;
+    font-size: 2.5em; 
+    padding: 10px 30px;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    letter-spacing: 1px;
+}
+
+.pet_name form {
+    display: flex;
+    align-items: center;
+    background-color: #fff; 
+    padding: 15px 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
+}
+
+.form_name {
+  font-family: 'Arial Black', sans-serif;
+  font-size: 1.2em; 
+  color: #ff881a; 
+  margin-right: 15px; 
+}
+
+.form_input {
+  border-radius: 20px; 
+  padding: 10px 15px;
+  border: 2px solid #ffab66; 
+  outline: none; 
+  transition: border-color 0.3s;
+}
+
+.form_input:focus {
+    border-color: #e64a19; 
+}
+/* ------------------------------------------------ */
+
+
+.render_pet_image {
+  position: relative; 
+  width: fit-content; 
+  margin-bottom: 30px; 
+  cursor: crosshair; 
+}
+
+/* Global img style (applies to pet image) */
+img {
+  width: 200px;
+  height: 200px;
+  display: block; 
+}
+
+/* --- HEART ANIMATION --- */
+.floating_heart {
   position: absolute;
-  width: 5%; 
-  height: 10%;
-  opacity: 0;
-  animation: heart-animation 3s ease-in-out forwards;
+  width: 30px !important;
+  height: 30px !important;
+  pointer-events: none; 
+  animation: floatUp 1s ease-out forwards;
+  z-index: 10;
 }
 
-@keyframes heart-animation {
+@keyframes floatUp {
   0% {
-      opacity: 1;
-      transform: scale(0.8) translateY(0);
+    transform: translateY(0) scale(0.5) rotate(0deg);
+    opacity: 1;
   }
   100% {
-      opacity: 0;
-      transform: scale(1.2) translateY(-100vh);
+    transform: translateY(-80px) scale(1.2) rotate(20deg);
+    opacity: 0;
   }
 }
+
+/* --- MOOD BUTTONS AESTHETICS --- */
+.pet_page > div:last-of-type { 
+    margin-top: 40px; 
+    margin-bottom: 20px;
+    align-self: center; /* Center the button container */
+}
+
+.mood_button {
+  background-color: #ffffff; 
+  color: #ff881a; 
+  font-family: 'Arial Black', sans-serif;
+  font-size: 1em;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  
+  margin: 10px; 
+  padding: 12px 25px;
+  border: 2px solid #ffab66; 
+  border-radius: 25px; 
+  cursor: pointer;
+  
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  transition: all 0.3s ease-in-out; 
+}
+
+.mood_button:hover {
+    background-color: #ffab66; 
+    color: white; 
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); 
+    transform: translateY(-2px); 
+}
+/* --------------------------------- */

@@ -3,6 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { IconButton } from "@mui/material";
 import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
 import "../Styles/Pet.css";
+
+// --- Asset Imports ---
+// Pet images
 import normal_cat from "../assets/Normal_cat.gif";
 import sleepy_cat from "../assets/sleepy_cat.gif";
 import hungry_cat from "../assets/hungry_cat.gif";
@@ -13,14 +16,30 @@ import sleepy_dog from "../assets/sleepy_dog.gif";
 import hungry_dog from "../assets/hungry_dog.gif";
 import happy_dog from "../assets/happy_dog.gif";
 import sad_dog from "../assets/sad_dog.gif";
-import hearts from "../assets/hearts.png";
+
+// UI elements
+import heartsIcon from "../assets/hearts.png";
+import backgroundImage from "../assets/Orange.jfif"; // <<< Imported Background Image
+
+// Define the shape of a heart object
+interface FloatingHeart {
+  id: number;
+  x: number;
+  y: number;
+}
 
 function Pet() {
-  const { petType } = useParams<{ petType: "dog" | "cat" }>(); // Get pet type from URL
+  const { petType } = useParams<{ petType: "dog" | "cat" }>();
   const [petImage, setPetImage] = useState("");
   const [petName, setPetName] = useState<string>("");
   const [submittedName, setSubmittedName] = useState<string>("");
   const navigate = useNavigate();
+
+  // State to hold the active floating hearts
+  const [heartsList, setHeartsList] = useState<FloatingHeart[]>([]);
+  
+  // Ref to limit how fast hearts are created (throttling)
+  const lastHeartTime = useRef<number>(0);
 
   const petImages = {
     cat: { normal: normal_cat, sleepy: sleepy_cat, hungry: hungry_cat, happy: happy_cat, sad: sad_cat },
@@ -29,7 +48,7 @@ function Pet() {
 
   useEffect(() => {
     if (petType && petImages[petType]) {
-      setPetImage(petImages[petType].normal); // Set pet image based on selected pet type
+      setPetImage(petImages[petType].normal);
     }
   }, [petType]);
 
@@ -43,13 +62,46 @@ function Pet() {
     }
   };
 
+  // --- Logic for Floating Hearts ---
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const now = Date.now();
+    // Only add a heart every 50 milliseconds to prevent lag
+    if (now - lastHeartTime.current < 50) return;
+    lastHeartTime.current = now;
+
+    // Get the position of the image container
+    const rect = e.currentTarget.getBoundingClientRect();
+    
+    // Calculate X and Y relative to the image container
+    const x = e.clientX - rect.left; 
+    const y = e.clientY - rect.top;
+
+    const newHeart: FloatingHeart = { id: now, x, y };
+
+    setHeartsList((prev) => [...prev, newHeart]);
+
+    // Remove the heart from state after 1 second (1000ms)
+    setTimeout(() => {
+      setHeartsList((prev) => prev.filter((h) => h.id !== newHeart.id));
+    }, 1000);
+  };
+  // ---------------------------------
+
   return (
-    <div className="pet_page">
+    // APPLY BACKGROUND IMAGE VIA INLINE STYLE
+    <div 
+        className="pet_page" 
+        style={{ backgroundImage: `url(${backgroundImage})` }}
+    >
+      
+      {/* Back Button */}
       <IconButton onClick={handleBack} className="back_button" sx={{ color: "black" }}>
         <ArrowCircleLeftOutlinedIcon fontSize="large" />
       </IconButton>
 
-      <div className="pet_page">
+      {/* Main Content Container (Targeted by .pet_page > .pet_page in CSS) */}
+      <div className="pet_page"> 
+        {/* Pet Name Input/Display */}
         {submittedName ? (
           <div className="name_header">
             <h2>{submittedName}</h2>
@@ -63,10 +115,29 @@ function Pet() {
           </div>
         )}
 
-        <div className="render_pet_image">
+        {/* Pet Image and Heart Animation Container */}
+        <div className="render_pet_image" onMouseMove={handleMouseMove}>
           <img src={petImage} alt={`A ${petType}`} />
+          
+          {/* Render the floating hearts */}
+          {heartsList.map((heart) => (
+            <img
+              key={heart.id}
+              src={heartsIcon}
+              className="floating_heart"
+              alt=""
+              style={{
+                left: `${heart.x}px`,
+                top: `${heart.y}px`,
+                // Offset by half the heart size (15px) to center it on cursor
+                marginLeft: "-15px", 
+                marginTop: "-15px"
+              }}
+            />
+          ))}
         </div>
 
+        {/* Mood Buttons */}
         <div>
           <button onClick={() => handleMoodChange("happy")} className="mood_button">HAPPY</button>
           <button onClick={() => handleMoodChange("sad")} className="mood_button">SAD</button>

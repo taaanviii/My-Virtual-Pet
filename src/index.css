@@ -67,6 +67,14 @@ button:focus-visible {
   }
 }
   */
+* {
+  box-sizing: border-box;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
 
   #root {
     display: flexbox;
