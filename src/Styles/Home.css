@@ -1,101 +1,108 @@
 /* Styles/Home.css */
 
+/* --- PAGE BACKGROUND --- */
 .home {
     display: flex;
     flex-direction: column;
     padding: 0;
     margin: 0;
     width: 100%;
-    /* Use 100vh for reliable full viewport height */
-    height: 100vh; 
-    
-    /* --- NEW AESTHETIC GRADIENT BACKGROUND --- */
-    background: linear-gradient(160deg, #ffab66 0%, #ff7043 100%); 
+    height: 100vh;
+
+    /* Light paw-pattern background */
+    background-image: url('../assets/navbar-image.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: repeat;
     
     text-align: center;
     justify-content: center;
     align-items: center;
+
+    /* Soft overlay to lighten the bg */
+    position: relative;
 }
 
+
+/* Content wrapper */
 .landing_layout {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    /* No need for 100% height here if parent handles centering */
+    width: 90%;
+    max-width: 700px;
     text-align: center;
     justify-content: center;
     align-items: center;
-    /* Optional: Slight shadow on the whole content block to lift it from the background */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); 
-    padding: 20px 0;
+
+    padding: 30px 20px;
+    border-radius: 25px;
+
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(3px);
+
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+
+    position: relative;
+    z-index: 1;
 }
 
-/* --- PAGE NAME AESTHETICS --- */
+/* --- PAGE TITLE --- */
 .page_name {
-    margin-top: 5%; 
-    margin-bottom: 20px; /* Added spacing below title */
-    padding: 10px;
-    color: #fff; /* White text for contrast */
-    font-family: 'Arial Black', sans-serif; /* Strong, clear font */
-    font-size: 3em; /* Larger size */
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
-    letter-spacing: 2px;
+    margin-top: 10px;
+    margin-bottom: 25px;
+
+    color: #9c5d14; /* warm brown */
+    font-family: 'Fredoka One', sans-serif; /* soft rounded font */
+    font-size: 2.8em;
+    letter-spacing: 1px;
+
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
 }
 
-/* --- PAGE PHOTO AESTHETICS --- */
+/* --- PAGE PHOTO --- */
 .page_photo {
-    margin-bottom: 40px; /* Increased spacing below image */
-    width: 250px; /* Fixed size for better control */
-    height: 250px;
+    margin-bottom: 30px;
+    width: 230px;
+    height: 230px;
     object-fit: cover;
-    
-    /* Make the image rounded */
+
     border-radius: 50%;
-    /* White border for contrast */
-    border: 8px solid #ffe0b3; 
-    /* Lift the image with a prominent shadow */
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.25);
-    transition: transform 0.3s ease;
+    border: 7px solid #ffe8c7;
+    
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+
+    transition: transform 0.25s ease;
 }
 
 .page_photo:hover {
-    transform: scale(1.05) rotate(1deg); /* Slight interactive effect */
+    transform: scale(1.06);
 }
 
-
-/* --- START BUTTON AESTHETICS --- */
+/* --- START BUTTON --- */
 .start_button {
-    margin-bottom: 5%;
-    
-    /* New Button Style */
-    background-color: #ffffff;
-    padding: 15px 40px; /* Larger padding */
-    border: 2px solid #ffab66; 
-    border-radius: 30px; /* Highly rounded */
-    
-    /* Typography */
-    font-size: 1.5em; /* Larger text */
-    font-family: 'Arial Black', sans-serif;
-    color: #ff881a; /* Orange text */
-    text-align: center;
-    text-decoration: none; /* Important for the Link styling */
-    
-    /* Fixed width adjustment */
-    width: auto; 
+    margin-bottom: 15px;
+
+    background-color: #ffcf91;
+    padding: 15px 45px;
+    border-radius: 40px;
+    border: none;
+
+    font-size: 1.4em;
+    font-family: 'Fredoka One', sans-serif;
+    color: #7b4a0f;
+
     cursor: pointer;
-    
-    /* Hover/Effect */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease-in-out;
+
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+    transition: all 0.3s ease;
 }
 
 .start_button:hover {
-    background-color: #ffab66; /* Fill with light orange on hover */
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Lifted shadow */
-    transform: translateY(-3px); /* Slight lift */
+    background-color: #ffb869;
+    transform: translateY(-3px);
+    box-shadow: 0 7px 18px rgba(0, 0, 0, 0.25);
 }
 
-/* Ensure the Link inside the button inherits button color */
 .start_button a {
     color: inherit;
     text-decoration: none;

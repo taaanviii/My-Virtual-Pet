@@ -6,18 +6,20 @@ import "../Styles/PetChoice.css"
 
 function PetChoice() {
   return (
-    <div className='pet_choice_page'>
-        <div className='heading'>
-            <h2>Choose your pet</h2>
-        </div>
-        <div className='pet_choice'>
-            <div className='right_pet'>
-                <Link to="/pet/dog"><img src={dog} alt="dog" /></Link>
-            </div>
-            <div className='left_pet'>
-                <Link to="/pet/cat"><img src={cat} alt='cat'/></Link>
-            </div>
-        </div>
+    <div className='pet-choice-page'>
+      <h2 className='title'>Choose your pet</h2>
+
+      <div className='pet-options'>
+        <Link to="/pet/dog" className="pet-card">
+          <img src={dog} alt="dog" />
+          <p>Dog</p>
+        </Link>
+
+        <Link to="/pet/cat" className="pet-card">
+          <img src={cat} alt="cat" />
+          <p>Cat</p>
+        </Link>
+      </div>
     </div>
   )
 }

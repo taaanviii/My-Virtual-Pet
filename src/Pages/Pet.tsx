@@ -5,23 +5,23 @@ import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutl
 import "../Styles/Pet.css";
 
 // --- Asset Imports ---
-// Pet images
 import normal_cat from "../assets/Normal_cat.gif";
 import sleepy_cat from "../assets/sleepy_cat.gif";
 import hungry_cat from "../assets/hungry_cat.gif";
 import happy_cat from "../assets/happy_cat.gif";
 import sad_cat from "../assets/sad_cat.gif";
+
 import normal_dog from "../assets/dog.png";
 import sleepy_dog from "../assets/sleepy_dog.gif";
 import hungry_dog from "../assets/hungry_dog.gif";
 import happy_dog from "../assets/happy_dog.gif";
 import sad_dog from "../assets/sad_dog.gif";
 
-// UI elements
 import heartsIcon from "../assets/hearts.png";
-import backgroundImage from "../assets/Orange.jfif"; // <<< Imported Background Image
 
-// Define the shape of a heart object
+// New light background to match other pages
+import backgroundImage from "../assets/navbar-image.jpg";
+
 interface FloatingHeart {
   id: number;
   x: number;
@@ -33,12 +33,10 @@ function Pet() {
   const [petImage, setPetImage] = useState("");
   const [petName, setPetName] = useState<string>("");
   const [submittedName, setSubmittedName] = useState<string>("");
+
   const navigate = useNavigate();
 
-  // State to hold the active floating hearts
   const [heartsList, setHeartsList] = useState<FloatingHeart[]>([]);
-  
-  // Ref to limit how fast hearts are created (throttling)
   const lastHeartTime = useRef<number>(0);
 
   const petImages = {
@@ -62,64 +60,65 @@ function Pet() {
     }
   };
 
-  // --- Logic for Floating Hearts ---
+  // --- Floating Hearts Logic ---
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const now = Date.now();
-    // Only add a heart every 50 milliseconds to prevent lag
     if (now - lastHeartTime.current < 50) return;
     lastHeartTime.current = now;
 
-    // Get the position of the image container
     const rect = e.currentTarget.getBoundingClientRect();
-    
-    // Calculate X and Y relative to the image container
-    const x = e.clientX - rect.left; 
+
+    const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
 
     const newHeart: FloatingHeart = { id: now, x, y };
 
     setHeartsList((prev) => [...prev, newHeart]);
 
-    // Remove the heart from state after 1 second (1000ms)
     setTimeout(() => {
       setHeartsList((prev) => prev.filter((h) => h.id !== newHeart.id));
     }, 1000);
   };
-  // ---------------------------------
 
   return (
-    // APPLY BACKGROUND IMAGE VIA INLINE STYLE
-    <div 
-        className="pet_page" 
-        style={{ backgroundImage: `url(${backgroundImage})` }}
+    <div
+      className="pet_page"
+      style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      
-      {/* Back Button */}
       <IconButton onClick={handleBack} className="back_button" sx={{ color: "black" }}>
         <ArrowCircleLeftOutlinedIcon fontSize="large" />
       </IconButton>
 
-      {/* Main Content Container (Targeted by .pet_page > .pet_page in CSS) */}
-      <div className="pet_page"> 
-        {/* Pet Name Input/Display */}
+      <div className="pet_page">
+        {/* Name */}
         {submittedName ? (
           <div className="name_header">
             <h2>{submittedName}</h2>
           </div>
         ) : (
           <div className="pet_name">
-            <form onSubmit={(e) => { e.preventDefault(); setSubmittedName(petName); setPetName(""); }}>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                setSubmittedName(petName);
+                setPetName("");
+              }}
+            >
               <label className="form_name">PET NAME:</label>
-              <input className="form_input" type="text" value={petName} onChange={(e) => setPetName(e.target.value)} />
+              <input
+                className="form_input"
+                type="text"
+                value={petName}
+                onChange={(e) => setPetName(e.target.value)}
+              />
             </form>
           </div>
         )}
 
-        {/* Pet Image and Heart Animation Container */}
+        {/* Pet Image */}
         <div className="render_pet_image" onMouseMove={handleMouseMove}>
-          <img src={petImage} alt={`A ${petType}`} />
-          
-          {/* Render the floating hearts */}
+          <img src={petImage} alt={petType} />
+
           {heartsList.map((heart) => (
             <img
               key={heart.id}
@@ -129,20 +128,27 @@ function Pet() {
               style={{
                 left: `${heart.x}px`,
                 top: `${heart.y}px`,
-                // Offset by half the heart size (15px) to center it on cursor
-                marginLeft: "-15px", 
-                marginTop: "-15px"
+                marginLeft: "-10px",
+                marginTop: "-10px",
               }}
             />
           ))}
         </div>
 
-        {/* Mood Buttons */}
-        <div>
-          <button onClick={() => handleMoodChange("happy")} className="mood_button">HAPPY</button>
-          <button onClick={() => handleMoodChange("sad")} className="mood_button">SAD</button>
-          <button onClick={() => handleMoodChange("hungry")} className="mood_button">FEED</button>
-          <button onClick={() => handleMoodChange("sleepy")} className="mood_button">SLEEP</button>
+        {/* Buttons */}
+        <div className="mood_container">
+          <button onClick={() => handleMoodChange("happy")} className="mood_button">
+            HAPPY
+          </button>
+          <button onClick={() => handleMoodChange("sad")} className="mood_button">
+            SAD
+          </button>
+          <button onClick={() => handleMoodChange("hungry")} className="mood_button">
+            FEED
+          </button>
+          <button onClick={() => handleMoodChange("sleepy")} className="mood_button">
+            SLEEP
+          </button>
         </div>
       </div>
     </div>
