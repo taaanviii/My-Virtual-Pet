@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import "../Styles/Home.css"
 import boop from "../assets/Boop.gif"
