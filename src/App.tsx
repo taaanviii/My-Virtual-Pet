@@ -8,7 +8,10 @@ import PetChoice from './Pages/PetChoice';
 function App() {
   return (
     <div className="App" >
-      <Router>
+      {/* CRITICAL FIX: Add the 'basename' prop to tell the router where the app starts.
+        This must be the exact name of your GitHub repository.
+      */}
+      <Router basename="/My-Virtual-Pet"> 
         <Navbar />
           <Routes>
             <Route path='/' element={<Home />} />
@@ -21,4 +24,3 @@ function App() {
 }
 
 export default App;
-
