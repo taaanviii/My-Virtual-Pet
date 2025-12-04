@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { IconButton } from "@mui/material";
 import ArrowCircleLeftOutlinedIcon from "@mui/icons-material/ArrowCircleLeftOutlined";
+import HomeButton from "../Components/HomeButton";
 import "../Styles/Pet.css";
 
 // --- Assets ---
@@ -32,7 +33,6 @@ function Pet() {
   const { petType } = useParams<{ petType: "dog" | "cat" }>();
   const navigate = useNavigate();
 
-  // Define this FIRST
   const petImages = {
     cat: {
       normal: normal_cat,
@@ -50,7 +50,6 @@ function Pet() {
     },
   };
 
-  // Safe default
   const defaultImage =
     petType && petImages[petType] ? petImages[petType].normal : null;
 
@@ -58,7 +57,6 @@ function Pet() {
   const [petName, setPetName] = useState("");
   const [submittedName, setSubmittedName] = useState("");
 
-  // Floating hearts
   const [heartsList, setHeartsList] = useState<FloatingHeart[]>([]);
   const lastHeartTime = useRef(0);
 
@@ -68,7 +66,14 @@ function Pet() {
     }
   }, [petType]);
 
-  const handleBack = () => navigate(-1);
+  // --- Fixed back button ---
+  const handleBack = () => {
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate("/"); // fallback to home if no history
+    }
+  };
 
   const handleMoodChange = (mood: "happy" | "sad" | "hungry" | "sleepy") => {
     if (petType) {
@@ -76,7 +81,6 @@ function Pet() {
     }
   };
 
-  // Floating hearts
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const now = Date.now();
     if (now - lastHeartTime.current < 50) return;
@@ -99,9 +103,24 @@ function Pet() {
       className="pet_page"
       style={{ backgroundImage: `url(${backgroundImage})` }}
     >
-      <IconButton onClick={handleBack} className="back_button" sx={{ color: "black" }}>
+      {/* --- MUI Back Button Fixed --- */}
+      <IconButton
+        onClick={handleBack}
+        className="back_button"
+        sx={{
+          position: "fixed",
+          top: "20px",
+          left: "20px",
+          color: "black",
+          zIndex: 1000,
+        }}
+      >
         <ArrowCircleLeftOutlinedIcon fontSize="large" />
       </IconButton>
+
+        <div style={{ position: "fixed", top: "20px", right: "80px", zIndex: 1000 }}>
+    <HomeButton />
+  </div>
 
       <div className="pet_page">
         {/* Pet Name */}
@@ -132,7 +151,6 @@ function Pet() {
         {/* Image + Hearts */}
         <div className="render_pet_image" onMouseMove={handleMouseMove}>
           {petImage && <img src={petImage} alt={`${petType}`} />}
-
           {heartsList.map((heart) => (
             <img
               key={heart.id}
@@ -151,16 +169,28 @@ function Pet() {
 
         {/* Mood Buttons */}
         <div className="mood_container">
-          <button className="mood_button" onClick={() => handleMoodChange("happy")}>
+          <button
+            className="mood_button"
+            onClick={() => handleMoodChange("happy")}
+          >
             HAPPY
           </button>
-          <button className="mood_button" onClick={() => handleMoodChange("sad")}>
+          <button
+            className="mood_button"
+            onClick={() => handleMoodChange("sad")}
+          >
             SAD
           </button>
-          <button className="mood_button" onClick={() => handleMoodChange("hungry")}>
+          <button
+            className="mood_button"
+            onClick={() => handleMoodChange("hungry")}
+          >
             FEED
           </button>
-          <button className="mood_button" onClick={() => handleMoodChange("sleepy")}>
+          <button
+            className="mood_button"
+            onClick={() => handleMoodChange("sleepy")}
+          >
             SLEEP
           </button>
         </div>

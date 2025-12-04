@@ -43,6 +43,7 @@
 /* -----------------------
    BACK BUTTON
 ------------------------ */
+
 .back_button {
   position: fixed !important;
   top: 30px !important;
@@ -62,8 +63,7 @@
 
 .back_button:hover {
   transform: scale(1.07);
-  background: #ffb774;
-  color: white !important;
+ 
 }
 
 

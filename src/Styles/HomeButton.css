@@ -1,0 +1,16 @@
+.home_btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: white !important;
+    color: #ff881a !important;
+    backdrop-filter: blur(6px);
+    border-radius: 12px !important;
+    padding: 8px !important;
+    transition: 0.25s ease;
+}
+
+.home_btn:hover {
+    background: rgba(255, 255, 255, 0.55);
+    transform: scale(1.08);
+}

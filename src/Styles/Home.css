@@ -82,14 +82,14 @@
 .start_button {
     margin-bottom: 15px;
 
-    background-color: #ffcf91;
+    background-color: #ff881a;
     padding: 15px 45px;
     border-radius: 40px;
     border: none;
 
     font-size: 1.4em;
     font-family: 'Fredoka One', sans-serif;
-    color: #7b4a0f;
+    color: white;
 
     cursor: pointer;
 
